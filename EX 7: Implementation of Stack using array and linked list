@@ -1,0 +1,180 @@
+//STACK USING ARRAY
+#include <stdio.h> 
+int stack[100],i,j,choice=0,n,top=-1;  
+void push();  
+void pop();  
+void show();  
+void main ()  
+{  
+     
+    printf("Enter the number of elements in the stack ");  
+    scanf("%d",&n);  
+    printf("*********Stack operations using array*********");  
+ 
+    printf("\n----------------------------------------------\n");  
+    printf("Chose one from the below options...\n");  
+    printf("\n1-Push\n2-Pop\n3-Show\n4-Exit");  
+    while(1){  
+        printf("\n Enter your choice \n");        
+        scanf("%d",&choice);  
+        switch(choice)  
+        {  
+            case 1:  
+            {  
+                push();  
+                break;  
+            }  
+            case 2:  
+            {  
+                pop();  
+                break;  
+            }  
+            case 3:  
+            {  
+                show();  
+                break;  
+            }  
+            case 4:  
+            {  
+                printf("Exiting....");  
+                exit(0);
+                break;  
+            }  
+            default:  
+            {  
+                printf("Please Enter valid choice ");  
+            }  
+        }
+    }  
+}  
+ 
+void push ()  
+{  
+    int val;      
+    if (top == n )  
+    printf("\n Overflow");  
+    else  
+    {  
+        printf("Enter the value?");  
+        scanf("%d",&val);        
+        top = top +1;  
+        stack[top] = val;  
+    }  
+}  
+ 
+void pop ()  
+{  
+    if(top == -1)  
+    printf("Underflow");  
+    else  
+    top = top -1;  
+}  
+void show()  
+{  
+    for (i=top;i>=0;i--)  
+    {  
+        printf("%d\n",stack[i]);  
+    }  
+    if(top == -1)  
+    {  
+        printf("Stack is empty");  
+    }  
+}
+
+//STACK USING LINKED LIST
+
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure for the linked list
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Structure for Stack
+struct Stack {
+    struct Node* top;
+};
+
+// Function to create a new node
+struct Node* newNode(int data) {
+    struct Node* node = (struct Node*)malloc(sizeof(struct Node));
+    if (node == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
+    node->data = data;
+    node->next = NULL;
+    return node;
+}
+
+// Function to initialize the stack
+void initializeStack(struct Stack* stack) {
+    stack->top = NULL;
+}
+
+// Function to check if the stack is empty
+int isEmpty(struct Stack* stack) {
+    return stack->top == NULL;
+}
+
+// Function to push an element onto the stack
+void push(struct Stack* stack, int data) {
+    struct Node* node = newNode(data);
+    node->next = stack->top;
+    stack->top = node;
+}
+
+// Function to pop an element from the stack
+int pop(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack Underflow\n");
+        return -1;
+    }
+    struct Node* temp = stack->top;
+    int data = temp->data;
+    stack->top = temp->next;
+    free(temp);
+    return data;
+}
+
+// Function to return the top element of the stack without removing it
+int peek(struct Stack* stack) {
+    if (isEmpty(stack)) {
+        printf("Stack is empty\n");
+        return -1;
+    }
+    return stack->top->data;
+}
+
+// Function to print the stack
+void printStack(struct Stack* stack) {
+    struct Node* current = stack->top;
+    printf("Stack: ");
+    while (current != NULL) {
+        printf("%d ", current->data);
+        current = current->next;
+    }
+    printf("\n");
+}
+
+// Driver program to test above functions
+int main() {
+    struct Stack stack;
+    initializeStack(&stack);
+
+    push(&stack, 10);
+    push(&stack, 20);
+    push(&stack, 30);
+
+    printStack(&stack);
+
+    printf("Top element: %d\n", peek(&stack));
+
+    printf("Popped element: %d\n", pop(&stack));
+    printStack(&stack);
+
+    return 0;
+}
+
